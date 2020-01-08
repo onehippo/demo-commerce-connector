@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
 import com.bloomreach.commercedxp.api.v2.connector.form.CategoryForm;
+import com.bloomreach.commercedxp.api.v2.connector.model.ItemId;
 import com.bloomreach.commercedxp.api.v2.connector.model.ItemModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
 import com.bloomreach.commercedxp.api.v2.connector.model.SimplePageResult;
@@ -37,14 +38,15 @@ import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 public class MyDemoProductRepositoryImpl extends AbstractProductRepository {
 
     @Override
-    public ItemModel findOne(CommerceConnector connector, String id, QuerySpec querySpec) throws ConnectorException {
-        // Retrieve the internal data first.
+    public ItemModel findOne(CommerceConnector connector, ItemId itemId, QuerySpec querySpec) throws ConnectorException {
+        //TODO
+    	// Retrieve the internal data first.
         final MyDemoData data = MyDemoDataLoader.getMyDemoData();
         final List<MyDemoProductItem> productItems = data.getResponse().getProductItems();
 
         // For simplicity, just iterate over the items and return it if an item is found by the product code.
         for (MyDemoProductItem item : productItems) {
-            if (id.equals(item.getCode())) {
+            if (itemId.getId().equals(item.getCode())) {
                 return item;
             }
         }
@@ -75,6 +77,15 @@ public class MyDemoProductRepositoryImpl extends AbstractProductRepository {
         // Return a paginated result using the common SimplePageResult class with item collection and pagination info.
         return new SimplePageResult<>(itemModels, offset, limit, totalSize);
     }
+
+
+
+    @Override
+    public ItemId fromPathSegmentString(String pathSegment) {
+        //TODO
+        return null;
+    }
+
 
     @Override
     public PageResult<ItemModel> findAllByCategory(CommerceConnector connector, CategoryForm categoryForm,

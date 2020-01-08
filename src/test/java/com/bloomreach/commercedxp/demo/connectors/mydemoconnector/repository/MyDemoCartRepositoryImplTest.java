@@ -15,10 +15,12 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import com.bloomreach.commercedxp.api.v2.connector.visitor.TransientVisitorAccessToken;
 import org.hippoecm.hst.container.ModifiableRequestContextProvider;
 import org.hippoecm.hst.mock.core.request.MockHstRequestContext;
 import org.junit.After;
@@ -28,16 +30,16 @@ import org.junit.Test;
 import com.bloomreach.commercedxp.api.v2.connector.form.CartEntryForm.ACTION;
 import com.bloomreach.commercedxp.api.v2.connector.model.CartEntryModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.CartModel;
+import com.bloomreach.commercedxp.api.v2.connector.model.SimpleItemId;
 import com.bloomreach.commercedxp.api.v2.connector.repository.CartRepository;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.TransientVisitorAccessToken;
 import com.bloomreach.commercedxp.api.v2.connector.visitor.TransientVisitorContext;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContext;
 import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContextAccess;
 import com.bloomreach.commercedxp.common.v2.connector.form.SimpleCartEntryForm;
 import com.bloomreach.commercedxp.common.v2.connector.form.SimpleCartForm;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model.MyDemoCartModel;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
 
@@ -48,7 +50,8 @@ public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
         cartRepository = new MyDemoCartRepositoryImpl();
 
         ModifiableRequestContextProvider.set(new MockHstRequestContext());
-        final TransientVisitorContext visitorContext = new TransientVisitorContext("john@example.com", new TransientVisitorAccessToken("token"));
+        final VisitorContext visitorContext = new TransientVisitorContext("john@example.com",
+                new TransientVisitorAccessToken("token"), false);
         VisitorContextAccess.setCurrentVisitorContext(visitorContext);
     }
 
@@ -71,7 +74,7 @@ public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
         assertEquals(0, cartModel.getEntries().size());
 
         // 2. add one item to cart.
-        SimpleCartEntryForm entryForm = new SimpleCartEntryForm("WOMENS_M-Class_TEE", 1, ACTION.CREATE);
+        SimpleCartEntryForm entryForm = new SimpleCartEntryForm(SimpleItemId.fromStringValue("WOMENS_M-Class_TEE"), 1, ACTION.CREATE);
         cartForm = new SimpleCartForm("", Arrays.asList(entryForm));
         cartModel = cartRepository.save(mockConnector, cartForm);
 
@@ -84,8 +87,8 @@ public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
         assertEquals(1, entryModel.getQuantity());
 
         // 3. add two more items to cart.
-        cartForm = new SimpleCartForm("", Arrays.asList(new SimpleCartEntryForm("AUTO_DRIVE", 1, ACTION.CREATE),
-                new SimpleCartEntryForm("HEATED_SEATS", 1, ACTION.CREATE)));
+        cartForm = new SimpleCartForm("", Arrays.asList(new SimpleCartEntryForm(SimpleItemId.fromStringValue("AUTO_DRIVE"), 1, ACTION.CREATE),
+                new SimpleCartEntryForm(SimpleItemId.fromStringValue("HEATED_SEATS"), 1, ACTION.CREATE)));
         cartModel = cartRepository.save(mockConnector, cartForm);
 
         assertNotNull(cartModel);
@@ -105,7 +108,7 @@ public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
         assertEquals(1, entryModel.getQuantity());
 
         // 4. update the quantity of the second entry.
-        entryForm = new SimpleCartEntryForm("AUTO_DRIVE", 2, ACTION.UPDATE);
+        entryForm = new SimpleCartEntryForm(SimpleItemId.fromStringValue("AUTO_DRIVE"), 2, ACTION.UPDATE);
         cartForm = new SimpleCartForm("", Arrays.asList(entryForm));
         cartModel = cartRepository.save(mockConnector, cartForm);
 
@@ -126,7 +129,7 @@ public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
         assertEquals(1, entryModel.getQuantity());
 
         // 5. delete the third entry.
-        entryForm = new SimpleCartEntryForm("HEATED_SEATS", 0, ACTION.DELETE);
+        entryForm = new SimpleCartEntryForm(SimpleItemId.fromStringValue("HEATED_SEATS"), 0, ACTION.DELETE);
         cartForm = new SimpleCartForm("", Arrays.asList(entryForm));
         cartModel = cartRepository.save(mockConnector, cartForm);
 

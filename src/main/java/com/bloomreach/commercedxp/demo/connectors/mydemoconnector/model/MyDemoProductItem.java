@@ -21,13 +21,7 @@ import java.util.Collections;
 import java.util.Currency;
 import java.util.Set;
 
-import com.bloomreach.commercedxp.api.v2.connector.model.ImageModel;
-import com.bloomreach.commercedxp.api.v2.connector.model.ImageSetModel;
-import com.bloomreach.commercedxp.api.v2.connector.model.ItemModel;
-import com.bloomreach.commercedxp.api.v2.connector.model.Price;
-import com.bloomreach.commercedxp.api.v2.connector.model.SimpleImageModel;
-import com.bloomreach.commercedxp.api.v2.connector.model.SimpleImageSetModel;
-import com.bloomreach.commercedxp.api.v2.connector.model.SimpleLinkModel;
+import com.bloomreach.commercedxp.api.v2.connector.model.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -50,7 +44,6 @@ public class MyDemoProductItem implements ItemModel {
     private Set<String> categories;
 
     @JsonProperty("pid")
-    @Override
     public String getId() {
         return id;
     }
@@ -60,7 +53,6 @@ public class MyDemoProductItem implements ItemModel {
     }
 
     @JsonProperty("default_sku")
-    @Override
     public String getCode() {
         return code;
     }
@@ -179,5 +171,11 @@ public class MyDemoProductItem implements ItemModel {
     public void setCategories(Set<String> categories) {
         this.categories = categories;
     }
+
+	@Override
+	public ItemId getItemId() {
+        ItemId  itemId = new SimpleItemId(this.id, this.code);
+		return itemId;
+	}
 
 }
