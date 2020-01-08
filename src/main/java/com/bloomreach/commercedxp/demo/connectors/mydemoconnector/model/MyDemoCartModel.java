@@ -29,6 +29,7 @@ public class MyDemoCartModel implements CartModel {
     private int totalQuantity = -1;
     private List<CartEntryModel> cartEntries;
     private String orderId;
+    private Long revision;
 
     public MyDemoCartModel(final String id, final String username) {
         this.id = id;
@@ -128,4 +129,12 @@ public class MyDemoCartModel implements CartModel {
         return orderId;
     }
 
+    @Override
+    public Long getRevision() {
+        return revision;
+    }
+
+    public void setRevision(Long revision) {
+        this.revision = revision;
+    }
 }

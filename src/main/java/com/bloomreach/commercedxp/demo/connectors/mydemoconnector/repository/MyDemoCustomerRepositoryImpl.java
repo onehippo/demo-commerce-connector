@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
+import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
@@ -39,6 +41,33 @@ public class MyDemoCustomerRepositoryImpl extends AbstractCustomerRepository {
      * Simple enough for the demo.
      */
     private Map<String, MyDemoCustomerModel> customerModels = new ConcurrentHashMap<>();
+
+    @Override
+    public CustomerModel findOne(CommerceConnector connector, String id, QuerySpec querySpec) throws ConnectorException {
+        // For demo purpose, let's disallow to find customer profile if id is blank.
+        if (StringUtils.isBlank(id)) {
+            throw new IllegalArgumentException("Blank customer id.");
+        }
+
+        CustomerModel customerModel = null;
+        for(final CustomerModel customer: customerModels.values()){
+            if(customer.getId().equals(id)){
+                customerModel = customer;
+                break;
+            }
+        }
+
+        if (customerModel == null) {
+            throw new ConnectorException("401", "Customer not authenticated.");
+        }
+
+        return customerModel;
+    }
+
+    @Override
+    public PageResult<CustomerModel> findAll(CommerceConnector connector, QuerySpec querySpec) throws ConnectorException {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public CustomerModel save(CommerceConnector connector, CustomerForm resourceForm) throws ConnectorException {

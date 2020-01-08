@@ -22,9 +22,11 @@ public class MyDemoCustomerModel implements CustomerModel {
 
     private final String id;
     private String firstName;
+    private String middleName;
     private String lastName;
     private String email;
     private String accessToken;
+    private Long revision;
 
     public MyDemoCustomerModel(final String id) {
         this.id = id;
@@ -42,6 +44,15 @@ public class MyDemoCustomerModel implements CustomerModel {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @Override
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     @Override
@@ -75,5 +86,14 @@ public class MyDemoCustomerModel implements CustomerModel {
 
     public void setAccessToken(final String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    @Override
+    public Long getRevision() {
+        return revision;
+    }
+
+    public void setRevision(Long revision) {
+        this.revision = revision;
     }
 }

@@ -27,12 +27,22 @@
     through which StarterStore retrieves your CommerceRepository components.
   -->
   <bean class="com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoConnectorRepositoryProviderImpl">
-    <property name="categoryRepository" ref="categoryRepository" />
-    <property name="productRepository" ref="productRepository" />
-    <property name="customerRepository" ref="customerRepository" />
-    <property name="cartRepository" ref="cartRepository" />
-    <property name="orderRepository" ref="orderRepository" />
-    <property name="addressRepository" ref="addressRepository" />
+    <property name="commerceRepositoryMap">
+      <map>
+        <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.CategoryRepository"
+               value-ref="categoryRepository" />
+        <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.ProductRepository"
+               value-ref="productRepository" />
+        <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.CustomerRepository"
+               value-ref="customerRepository" />
+        <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.AddressRepository"
+               value-ref="addressRepository" />
+        <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.CartRepository"
+               value-ref="cartRepository" />
+        <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.OrderRepository"
+               value-ref="orderRepository" />
+      </map>
+    </property>
   </bean>
 
   <bean id="categoryRepository" class="com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoCategoryRepositoryImpl">

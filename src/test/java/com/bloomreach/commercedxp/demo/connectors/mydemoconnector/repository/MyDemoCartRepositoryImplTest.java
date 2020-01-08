@@ -18,6 +18,7 @@ package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import com.bloomreach.commercedxp.api.v2.connector.visitor.TransientVisitorAccessToken;
 import org.hippoecm.hst.container.ModifiableRequestContextProvider;
 import org.hippoecm.hst.mock.core.request.MockHstRequestContext;
 import org.junit.After;
@@ -47,7 +48,7 @@ public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
         cartRepository = new MyDemoCartRepositoryImpl();
 
         ModifiableRequestContextProvider.set(new MockHstRequestContext());
-        final TransientVisitorContext visitorContext = new TransientVisitorContext("john@example.com", null);
+        final TransientVisitorContext visitorContext = new TransientVisitorContext("john@example.com", new TransientVisitorAccessToken("token"));
         VisitorContextAccess.setCurrentVisitorContext(visitorContext);
     }
 
