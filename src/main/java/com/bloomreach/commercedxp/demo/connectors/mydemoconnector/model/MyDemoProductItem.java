@@ -23,10 +23,12 @@ import java.util.Set;
 
 import com.bloomreach.commercedxp.api.v2.connector.model.ImageModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.ImageSetModel;
+import com.bloomreach.commercedxp.api.v2.connector.model.ItemId;
 import com.bloomreach.commercedxp.api.v2.connector.model.ItemModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.Price;
 import com.bloomreach.commercedxp.api.v2.connector.model.SimpleImageModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.SimpleImageSetModel;
+import com.bloomreach.commercedxp.api.v2.connector.model.SimpleItemId;
 import com.bloomreach.commercedxp.api.v2.connector.model.SimpleLinkModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -48,9 +50,10 @@ public class MyDemoProductItem implements ItemModel {
     private BigDecimal purchasePriceAmount;
 
     private Set<String> categories;
+    
+    private ItemId itemId;
 
     @JsonProperty("pid")
-    @Override
     public String getId() {
         return id;
     }
@@ -60,7 +63,6 @@ public class MyDemoProductItem implements ItemModel {
     }
 
     @JsonProperty("default_sku")
-    @Override
     public String getCode() {
         return code;
     }
@@ -178,6 +180,17 @@ public class MyDemoProductItem implements ItemModel {
 
     public void setCategories(Set<String> categories) {
         this.categories = categories;
+    }
+
+    @JsonIgnore
+    @Override
+    public ItemId getItemId() {
+        if (itemId == null) {
+            if (id != null && code != null) {
+                itemId = new SimpleItemId(id, code);
+            }
+        }
+        return itemId;
     }
 
 }

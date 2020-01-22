@@ -15,22 +15,24 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.math.BigDecimal;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bloomreach.commercedxp.api.v2.connector.model.ItemId;
 import com.bloomreach.commercedxp.api.v2.connector.model.ItemModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
+import com.bloomreach.commercedxp.api.v2.connector.model.SimpleItemId;
 import com.bloomreach.commercedxp.api.v2.connector.repository.ProductRepository;
 import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
 import com.bloomreach.commercedxp.common.v2.connector.form.SimpleCategoryForm;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.MyDemoConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for my ProductRepository implementation.
@@ -64,8 +66,8 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
 
         // Also, check the first product item in the result collection.
         ItemModel itemModel = pageResult.iterator().next();
-        assertEquals("WOMENS_M-Class_TEE", itemModel.getId());
-        assertEquals("97115", itemModel.getCode());
+        assertEquals("WOMENS_M-Class_TEE", itemModel.getItemId().getId());
+        assertEquals("97115", itemModel.getItemId().getCode());
         assertEquals("Women's M-Class Tee", itemModel.getDisplayName());
         assertTrue(itemModel.getDescription().startsWith("Vestri M-Class logo anchors the signature web stripes racing"));
         assertEquals(new BigDecimal("49.99"), itemModel.getListPrice().getMoneyAmounts().get(0).getAmount());
@@ -82,8 +84,8 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
         assertEquals(10, pageResult.getTotalSize());
 
         itemModel = pageResult.iterator().next();
-        assertEquals("WOMENS_M-Class_TEE", itemModel.getId());
-        assertEquals("97115", itemModel.getCode());
+        assertEquals("WOMENS_M-Class_TEE", itemModel.getItemId().getId());
+        assertEquals("97115", itemModel.getItemId().getCode());
         assertEquals("Women's M-Class Tee", itemModel.getDisplayName());
         assertTrue(itemModel.getDescription().startsWith("Vestri M-Class logo anchors the signature web stripes racing"));
         assertEquals(new BigDecimal("49.99"), itemModel.getListPrice().getMoneyAmounts().get(0).getAmount());
@@ -104,8 +106,8 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
 
         // Also, check the first product item in the result collection.
         itemModel = pageResult.iterator().next();
-        assertEquals("AUTO_DRIVE", itemModel.getId());
-        assertEquals("11610", itemModel.getCode());
+        assertEquals("AUTO_DRIVE", itemModel.getItemId().getId());
+        assertEquals("11610", itemModel.getItemId().getCode());
         assertEquals("AutoPilot", itemModel.getDisplayName());
         assertTrue(itemModel.getDescription().startsWith("All Vestri vehicles produced, have the ability for full self-driving"));
         assertEquals(new BigDecimal("775.0"), itemModel.getListPrice().getMoneyAmounts().get(0).getAmount());
@@ -120,10 +122,12 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
         final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
-        ItemModel itemModel = productRepository.findOne(mockConnector, "97115", querySpec);
+        ItemId itemId = new SimpleItemId("WOMENS_M-Class_TEE","97115");
+        
+        ItemModel itemModel = productRepository.findOne(mockConnector, itemId, querySpec);
 
-        assertEquals("WOMENS_M-Class_TEE", itemModel.getId());
-        assertEquals("97115", itemModel.getCode());
+        assertEquals("WOMENS_M-Class_TEE", itemModel.getItemId().getId());
+        assertEquals("97115", itemModel.getItemId().getCode());
         assertEquals("Women's M-Class Tee", itemModel.getDisplayName());
         assertTrue(itemModel.getDescription().startsWith("Vestri M-Class logo anchors the signature web stripes racing"));
         assertEquals(new BigDecimal("49.99"), itemModel.getListPrice().getMoneyAmounts().get(0).getAmount());
@@ -131,10 +135,11 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
         assertEquals("https://s3-us-west-2.amazonaws.com/elasticpath-demo-images/VESTRI_VIRTUAL/97115.png",
                 itemModel.getImageSet().getThumbnail().getSelfLink().getHref());
 
-        itemModel = productRepository.findOne(mockConnector, "11610", querySpec);
+        itemId = new SimpleItemId("AUTO_DRIVE", "11610");
+        itemModel = productRepository.findOne(mockConnector, itemId, querySpec);
 
-        assertEquals("AUTO_DRIVE", itemModel.getId());
-        assertEquals("11610", itemModel.getCode());
+        assertEquals("AUTO_DRIVE", itemModel.getItemId().getId());
+        assertEquals("11610", itemModel.getItemId().getCode());
         assertEquals("AutoPilot", itemModel.getDisplayName());
         assertTrue(itemModel.getDescription().startsWith("All Vestri vehicles produced, have the ability for full self-driving"));
         assertEquals(new BigDecimal("775.0"), itemModel.getListPrice().getMoneyAmounts().get(0).getAmount());
@@ -142,7 +147,8 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
         assertEquals("https://s3-us-west-2.amazonaws.com/elasticpath-demo-images/VESTRI_VIRTUAL/11610.png",
                 itemModel.getImageSet().getThumbnail().getSelfLink().getHref());
 
-        itemModel = productRepository.findOne(mockConnector, "non_existing", querySpec);
+        itemId = new SimpleItemId("non_existing", "non_existing");
+        itemModel = productRepository.findOne(mockConnector, itemId, querySpec);
         assertNull(itemModel);
     }
 
@@ -160,8 +166,8 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
         assertEquals(6, pageResult.getTotalSize());
 
         ItemModel itemModel = pageResult.iterator().next();
-        assertEquals("WOMENS_M-Class_TEE", itemModel.getId());
-        assertEquals("97115", itemModel.getCode());
+        assertEquals("WOMENS_M-Class_TEE", itemModel.getItemId().getId());
+        assertEquals("97115", itemModel.getItemId().getCode());
         assertEquals("Women's M-Class Tee", itemModel.getDisplayName());
         assertTrue(itemModel.getDescription().startsWith("Vestri M-Class logo anchors the signature web stripes racing"));
         assertEquals(new BigDecimal("49.99"), itemModel.getListPrice().getMoneyAmounts().get(0).getAmount());
@@ -178,8 +184,8 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
         assertEquals(1, pageResult.getTotalSize());
 
         itemModel = pageResult.iterator().next();
-        assertEquals("BLUEARTH_V905", itemModel.getId());
-        assertEquals("43449", itemModel.getCode());
+        assertEquals("BLUEARTH_V905", itemModel.getItemId().getId());
+        assertEquals("43449", itemModel.getItemId().getCode());
         assertEquals("Bluearth V905", itemModel.getDisplayName());
         assertTrue(itemModel.getDescription().startsWith("The BluEarth Winter V905 is Yokohama's environmentally conscious Performance Winter / Snow tire"));
         assertEquals(new BigDecimal("134.2"), itemModel.getListPrice().getMoneyAmounts().get(0).getAmount());

@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.bloomreach.commercedxp.api.v2.connector.model.CartEntryModel;
+import com.bloomreach.commercedxp.api.v2.connector.model.ItemLike;
 import com.bloomreach.commercedxp.api.v2.connector.model.ItemModel;
 
 public class MyDemoCartEntryModel implements CartEntryModel {
@@ -47,7 +48,7 @@ public class MyDemoCartEntryModel implements CartEntryModel {
     }
 
     @Override
-    public List<ItemModel> getItems() {
+    public List<ItemLike> getItems() {
         if (items == null) {
             return Collections.emptyList();
         }
@@ -79,7 +80,7 @@ public class MyDemoCartEntryModel implements CartEntryModel {
         ItemModel toRemove = null;
 
         for (ItemModel itemModel : items) {
-            if (itemModel.getId().equals(item.getId())) {
+            if (itemModel.getItemId().equals(item.getItemId())) {
                 toRemove = itemModel;
                 break;
             }
