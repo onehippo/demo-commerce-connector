@@ -21,7 +21,7 @@
   <artifactId>mydemoconnector</artifactId>
   <name>Example Commerce Connector</name>
   <description>Example Commerce Connector Implementation based on StarterStore Commerce Connector SDK</description>
-  <version>14.0.0</version>
+  <version>14.0.1-SNAPSHOT</version>
 
   <properties>
 
