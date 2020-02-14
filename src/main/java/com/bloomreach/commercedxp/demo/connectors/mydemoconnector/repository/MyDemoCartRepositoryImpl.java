@@ -88,13 +88,13 @@ public class MyDemoCartRepositoryImpl extends AbstractCartRepository {
                 cartModel.addEntry(createCartEntryModel(entryForm));
                 break;
             case UPDATE:
-                final MyDemoCartEntryModel entryModel = (MyDemoCartEntryModel) cartModel.getEntryById(entryForm.getId());
+                final MyDemoCartEntryModel entryModel = (MyDemoCartEntryModel) cartModel.getEntryById(entryForm.getEntryItemId().getId());
                 if (entryModel != null) {
                     entryModel.setQuantity(entryForm.getQuantity());
                 }
                 break;
             case DELETE:
-                cartModel.removeEntryById(entryForm.getId());
+                cartModel.removeEntryById(entryForm.getEntryItemId().getId());
                 break;
             default:
                 break;
@@ -134,7 +134,7 @@ public class MyDemoCartRepositoryImpl extends AbstractCartRepository {
     }
 
     private MyDemoCartEntryModel createCartEntryModel(final CartEntryForm entryForm) {
-        final String productItemId = entryForm.getId();
+        final String productItemId = entryForm.getEntryItemId().getId();
         final MyDemoCartEntryModel entryModel = new MyDemoCartEntryModel(productItemId);
         entryModel.setQuantity(entryForm.getQuantity());
 

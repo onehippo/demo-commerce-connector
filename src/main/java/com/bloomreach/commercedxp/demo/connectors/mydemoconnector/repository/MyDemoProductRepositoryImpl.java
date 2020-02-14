@@ -1,17 +1,17 @@
 /**
  * Copyright 2019 BloomReach Inc. (https://www.bloomreach.com/)
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository;
 
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
 import com.bloomreach.commercedxp.api.v2.connector.form.CategoryForm;
+import com.bloomreach.commercedxp.api.v2.connector.model.ItemId;
 import com.bloomreach.commercedxp.api.v2.connector.model.ItemModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
 import com.bloomreach.commercedxp.api.v2.connector.model.SimplePageResult;
@@ -37,14 +38,14 @@ import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 public class MyDemoProductRepositoryImpl extends AbstractProductRepository {
 
     @Override
-    public ItemModel findOne(CommerceConnector connector, String id, QuerySpec querySpec) throws ConnectorException {
+    public ItemModel findOne(CommerceConnector connector, ItemId itemId, QuerySpec querySpec) throws ConnectorException {
         // Retrieve the internal data first.
         final MyDemoData data = MyDemoDataLoader.getMyDemoData();
         final List<MyDemoProductItem> productItems = data.getResponse().getProductItems();
 
         // For simplicity, just iterate over the items and return it if an item is found by the product code.
         for (MyDemoProductItem item : productItems) {
-            if (id.equals(item.getCode())) {
+            if (itemId.equals(item.getItemId())) {
                 return item;
             }
         }
@@ -78,7 +79,7 @@ public class MyDemoProductRepositoryImpl extends AbstractProductRepository {
 
     @Override
     public PageResult<ItemModel> findAllByCategory(CommerceConnector connector, CategoryForm categoryForm,
-            QuerySpec querySpec) throws ConnectorException {
+                                                   QuerySpec querySpec) throws ConnectorException {
         final long offset = querySpec.getOffset();
         final long limit = (querySpec.getLimit() != null) ? querySpec.getLimit().longValue()
                 : MyDemoConstants.DEFAULT_PAGE_LIMIT;
@@ -101,5 +102,6 @@ public class MyDemoProductRepositoryImpl extends AbstractProductRepository {
         // Return a paginated result using the common SimplePageResult class with item collection and pagination info. 
         return new SimplePageResult<>(itemModels, offset, limit, totalSize);
     }
+
 
 }

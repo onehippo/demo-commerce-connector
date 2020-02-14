@@ -21,16 +21,16 @@
   <artifactId>mydemoconnector</artifactId>
   <name>Example Commerce Connector</name>
   <description>Example Commerce Connector Implementation based on StarterStore Commerce Connector SDK</description>
-  <version>2.1.0</version>
+  <version>14.0.0</version>
 
   <properties>
 
-    <starterstore.version>2.1.0</starterstore.version>
-    <hippo.hst.version>13.1.0</hippo.hst.version>
-    <hippo.addon-crisp.version>13.1.0</hippo.addon-crisp.version>
+    <starterstore.version>14.0.0</starterstore.version>
+    <hippo.hst.version>14.0.0</hippo.hst.version>
+    <hippo.addon-crisp.version>14.0.0</hippo.addon-crisp.version>
 
-    <jackson2.version>2.9.8</jackson2.version>
-    <jackson2-databind.version>2.9.8</jackson2-databind.version>
+    <jackson2.version>2.10.1</jackson2.version>
+    <jackson2-databind.version>2.10.1</jackson2-databind.version>
 
     <commons-lang3.version>3.2.1</commons-lang3.version>
 
