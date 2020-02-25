@@ -3,7 +3,7 @@ Example commerce connector implementation for learning and demonstration purpose
 
 ## Documentation
 
-See [Introduction tO Commerce Connector SDK](https://documentation.bloomreach.com/library/solutions/commerce-starterstore/connector-sdk/introduction.html).
+See [Introduction to Commerce Connector SDK](https://documentation.bloomreach.com/library/solutions/commerce-starterstore/connector-sdk/introduction.html).
 
 ## Versioning
 

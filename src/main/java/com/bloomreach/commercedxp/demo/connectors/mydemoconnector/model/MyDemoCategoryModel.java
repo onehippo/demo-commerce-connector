@@ -20,12 +20,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.bloomreach.commercedxp.api.v2.connector.model.CategoryModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MyDemoCategoryModel implements CategoryModel {
 
-    private final String id;
-    private final String displayName;
+    @JsonProperty("cat_id")
+    private String id;
+
+    @JsonProperty("cat_name")
+    private String displayName;
+
+    @JsonProperty("parent")
+    private String parentId;
+
+    @JsonIgnore
     private List<CategoryModel> children;
+
+    public MyDemoCategoryModel() {
+    }
 
     public MyDemoCategoryModel(final String id, final String displayName) {
         this(id, displayName, null);
@@ -45,6 +58,14 @@ public class MyDemoCategoryModel implements CategoryModel {
     @Override
     public String getDisplayName() {
         return displayName;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     @Override
