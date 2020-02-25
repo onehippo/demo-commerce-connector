@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
 import com.bloomreach.commercedxp.api.v2.connector.form.CartEntryForm;
-import com.bloomreach.commercedxp.api.v2.connector.form.CartEntryForm.ACTION;
+import com.bloomreach.commercedxp.api.v2.connector.form.ItemListEntryForm.ACTION;
 import com.bloomreach.commercedxp.api.v2.connector.form.CartForm;
 import com.bloomreach.commercedxp.api.v2.connector.model.CartModel;
 import com.bloomreach.commercedxp.api.v2.connector.repository.AbstractCartRepository;

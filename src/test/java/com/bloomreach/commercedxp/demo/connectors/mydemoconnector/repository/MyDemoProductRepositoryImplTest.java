@@ -15,10 +15,6 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.math.BigDecimal;
 
 import org.junit.Before;
@@ -33,6 +29,10 @@ import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
 import com.bloomreach.commercedxp.common.v2.connector.form.SimpleCategoryForm;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.MyDemoConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for my ProductRepository implementation.
@@ -51,7 +51,7 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
         // Create a mock CommerceConnector instance which simply sets the default (CRISP) resource space name
         // even if CRISP is not used in our demo module. See AbstractMyDemoRepositoryTest#createMockCommerceConnector()
         // for detail on how it can create a mock CommerceConnector and CommerceConnectorComponent instances using EasyMock.
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         // Create a QuerySpec with default pagination info,
         // and invoke the ProductRepository with that.
@@ -119,7 +119,7 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
 
     @Test
     public void testFindOne() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
         ItemId itemId = new SimpleItemId("WOMENS_M-Class_TEE","97115");
@@ -154,7 +154,7 @@ public class MyDemoProductRepositoryImplTest extends AbstractMyDemoRepositoryTes
 
     @Test
     public void testFindAllByCategory() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
         PageResult<ItemModel> pageResult = productRepository.findAllByCategory(mockConnector,

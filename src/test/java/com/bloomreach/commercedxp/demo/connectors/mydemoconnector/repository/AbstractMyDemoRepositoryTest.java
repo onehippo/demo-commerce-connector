@@ -15,34 +15,30 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnectorComponent;
-
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
-import static org.easymock.EasyMock.replay;
+import com.bloomreach.commercedxp.starterstore.mock.connectors.MockCommerceConnector;
+import com.bloomreach.commercedxp.starterstore.mock.connectors.MockCommerceConnectorComponent;
 
 public abstract class AbstractMyDemoRepositoryTest {
 
     protected CommerceConnectorComponent createMockCommerceConnectorComponent(final String id,
             final String serviceBaseUrl, final String methodName, final Map<String, String> requestHeaders,
             final String requestBody) {
-        final CommerceConnectorComponent component = createNiceMock(CommerceConnectorComponent.class);
-        expect(component.getId()).andReturn(id).anyTimes();
-        expect(component.getServiceBaseUrl()).andReturn(serviceBaseUrl).anyTimes();
-        expect(component.getHeaders()).andReturn(requestHeaders).anyTimes();
-        expect(component.getMethodType()).andReturn(methodName).anyTimes();
-        expect(component.getRequestBody()).andReturn(requestBody).anyTimes();
-        replay(component);
+        final MockCommerceConnectorComponent component = new MockCommerceConnectorComponent(id);
+        component.setServiceBaseUrl(serviceBaseUrl);
+        component.setMethodType(methodName);
+        component.setHeaders(requestHeaders);
+        component.setRequestBody(requestBody);
         return component;
     }
 
-    protected CommerceConnector createMockCommerceConnector(final String resourceSpace,
+    protected CommerceConnector createMockCommerceConnector(final String connectorId, final String resourceSpace,
             CommerceConnectorComponent... components) {
         final Map<String, CommerceConnectorComponent> componentMap = new HashMap<>();
 
@@ -52,50 +48,14 @@ public abstract class AbstractMyDemoRepositoryTest {
             }
         }
 
-        return createMockCommerceConnector(resourceSpace, componentMap);
+        return createMockCommerceConnector(connectorId, resourceSpace, Arrays.asList(components));
     }
 
-    protected CommerceConnector createMockCommerceConnector(final String resourceSpace,
-            final Map<String, CommerceConnectorComponent> componentMap) {
-        CommerceConnector connector = createNiceMock(CommerceConnector.class);
-        expect(connector.getResourceSpace()).andReturn(resourceSpace).anyTimes();
-        expect(connector.getComponentById(isA(String.class))).andDelegateTo(new CommerceConnector() {
-            @Override
-            public String getId() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public String getModuleName() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public String getResourceSpace() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public Map<String, String> getProperties() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public String getProperty(String propName) {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public Collection<CommerceConnectorComponent> getComponents() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public CommerceConnectorComponent getComponentById(String id) {
-                return componentMap.get(id);
-            }
-        }).anyTimes();
-        replay(connector);
+    protected CommerceConnector createMockCommerceConnector(final String connectorId, final String resourceSpace,
+            final Collection<CommerceConnectorComponent> components) {
+        MockCommerceConnector connector = new MockCommerceConnector(connectorId);
+        connector.setResourceSpace(resourceSpace);
+        connector.setComponents(components);
         return connector;
     }
 }

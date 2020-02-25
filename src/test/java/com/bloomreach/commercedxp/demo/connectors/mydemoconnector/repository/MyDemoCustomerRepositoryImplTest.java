@@ -43,7 +43,7 @@ public class MyDemoCustomerRepositoryImplTest extends AbstractMyDemoRepositoryTe
         // Create a mock CommerceConnector instance which simply sets the default (CRISP) resource space name
         // even if CRISP is not used in our demo module. See AbstractMyDemoRepositoryTest#createMockCommerceConnector()
         // for detail on how it can create a mock CommerceConnector and CommerceConnectorComponent instances using EasyMock. 
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         // Create a simple CustomerForm which is passed along from an application to the CustomerRepository,
         // with customer sign-in information.
@@ -62,7 +62,7 @@ public class MyDemoCustomerRepositoryImplTest extends AbstractMyDemoRepositoryTe
         // Create a mock CommerceConnector instance which simply sets the default (CRISP) resource space name
         // even if CRISP is not used in our demo module. See AbstractMyDemoRepositoryTest#createMockCommerceConnector()
         // for detail on how it can create a mock CommerceConnector and CommerceConnectorComponent instances using EasyMock.
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         // Create a simple CustomerForm which is passed along from an application to the CustomerRepository,
         // with customer sign-up information.

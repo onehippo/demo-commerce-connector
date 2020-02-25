@@ -15,9 +15,6 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -27,7 +24,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.bloomreach.commercedxp.api.v2.connector.form.CartEntryForm.ACTION;
+import com.bloomreach.commercedxp.api.v2.connector.form.ItemListEntryForm.ACTION;
 import com.bloomreach.commercedxp.api.v2.connector.model.CartEntryModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.CartModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.SimpleItemId;
@@ -40,6 +37,9 @@ import com.bloomreach.commercedxp.common.v2.connector.form.SimpleCartEntryForm;
 import com.bloomreach.commercedxp.common.v2.connector.form.SimpleCartForm;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model.MyDemoCartModel;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
 
@@ -63,7 +63,7 @@ public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
 
     @Test
     public void testBasicFlow() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         // 1. get my current cart.
         SimpleCartForm cartForm = new SimpleCartForm("", new LinkedList<>());

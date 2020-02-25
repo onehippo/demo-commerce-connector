@@ -42,7 +42,7 @@ public class MyDemoCategoryRepositoryImplTest extends AbstractMyDemoRepositoryTe
 
     @Test
     public void testFindAll() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
         PageResult<CategoryModel> pageResult = categoryRepository.findAll(mockConnector, querySpec);
@@ -68,7 +68,7 @@ public class MyDemoCategoryRepositoryImplTest extends AbstractMyDemoRepositoryTe
 
     @Test
     public void testFindOne() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
         CategoryModel categoryModel = categoryRepository.findOne(mockConnector, "VPA_VA_MCLASS", querySpec);
