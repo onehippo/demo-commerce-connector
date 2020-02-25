@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
 
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model.MyDemoCategoryModel;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model.MyDemoData;
@@ -62,9 +63,10 @@ final class MyDemoDataLoader {
 
         if (demoData != null) {
             // If custom product data file is provided in csv format, replace product data by the data in the CSV.
-            final String productsCsvProp = System.getProperty(SYS_PROP_DEMO_PRODUCTS_CSV);
+            String productsCsvProp = System.getProperty(SYS_PROP_DEMO_PRODUCTS_CSV);
 
             if (StringUtils.isNotBlank(productsCsvProp)) {
+                productsCsvProp = StrSubstitutor.replaceSystemProperties(productsCsvProp);
                 final URL productsCsvUrl = MyDemoDataResourceUtils.getResource(productsCsvProp);
 
                 if (productsCsvUrl != null) {
@@ -81,9 +83,10 @@ final class MyDemoDataLoader {
             }
 
             // If custom category data file is provided in csv format, replace category data by the data in the CSV.
-            final String categoriesCsvProp = System.getProperty(SYS_PROP_DEMO_CATEGORIES_CSV);
+            String categoriesCsvProp = System.getProperty(SYS_PROP_DEMO_CATEGORIES_CSV);
 
             if (StringUtils.isNotBlank(categoriesCsvProp)) {
+                categoriesCsvProp = StrSubstitutor.replaceSystemProperties(categoriesCsvProp);
                 final URL categoriesCsvUrl = MyDemoDataResourceUtils.getResource(categoriesCsvProp);
 
                 if (categoriesCsvUrl != null) {
