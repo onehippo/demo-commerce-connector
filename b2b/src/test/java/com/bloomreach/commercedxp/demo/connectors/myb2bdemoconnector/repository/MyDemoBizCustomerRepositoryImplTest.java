@@ -18,12 +18,16 @@ package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository
 import org.junit.Before;
 
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
+import com.bloomreach.commercedxp.api.v2.connector.model.AccountModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.CustomerModel;
+import com.bloomreach.commercedxp.api.v2.connector.repository.AccountRepository;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizCustomerRepository;
+import com.bloomreach.commercedxp.common.v2.connector.form.SimpleAccountForm;
 import com.bloomreach.commercedxp.common.v2.connector.form.SimpleCustomerForm;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 /**
@@ -31,11 +35,18 @@ import static org.junit.Assert.fail;
  */
 public class MyDemoBizCustomerRepositoryImplTest extends AbstractMyDemoBizRepositoryTest {
 
+    private AccountRepository accountRepository;
     private BizCustomerRepository customerRepository;
 
     @Before
     public void setUp() throws Exception {
+        accountRepository = new MyDemoBizAccountRepositoryImpl();
+
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
+        accountRepository.create(mockConnector, new SimpleAccountForm("example.com", "Example, Inc."));
+
         customerRepository = new MyDemoBizCustomerRepositoryImpl();
+        ((MyDemoBizCustomerRepositoryImpl) customerRepository).setAccountRepository(accountRepository);
     }
 
     @Before
@@ -85,6 +96,11 @@ public class MyDemoBizCustomerRepositoryImplTest extends AbstractMyDemoBizReposi
         assertEquals("John", customerModel.getFirstName());
         assertEquals("Doe", customerModel.getLastName());
         assertEquals("john@example.com", customerModel.getEmail());
+
+        AccountModel accountModel = customerModel.getAccount();
+        assertNotNull(accountModel);
+        assertEquals("example.com", accountModel.getId());
+        assertEquals("Example, Inc.", accountModel.getName());
 
         // Now, let's sign-out.
         // When a customer signing out, StarterStore Application invokes CustomerRepository#checkOut(...) operation.
