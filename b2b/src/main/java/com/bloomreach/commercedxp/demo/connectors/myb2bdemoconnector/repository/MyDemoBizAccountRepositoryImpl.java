@@ -18,6 +18,7 @@ package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -77,16 +78,12 @@ public class MyDemoBizAccountRepositoryImpl implements AccountRepository {
 
     @Override
     public AccountModel create(CommerceConnector connector, AccountForm resourceForm) throws ConnectorException {
-        if (StringUtils.isBlank(resourceForm.getId())) {
-            throw new IllegalArgumentException("account id must not be blank.");
-        }
-
         if (StringUtils.isBlank(resourceForm.getName())) {
             throw new IllegalArgumentException("account name must not be blank.");
         }
 
-        final MyDemoAccountModel account = new MyDemoAccountModel(resourceForm.getId(), resourceForm.getName());
-        accountsMap.put(resourceForm.getId(), account);
+        final MyDemoAccountModel account = new MyDemoAccountModel(UUID.randomUUID().toString(), resourceForm.getName());
+        accountsMap.put(account.getId(), account);
 
         return account;
     }
@@ -97,15 +94,11 @@ public class MyDemoBizAccountRepositoryImpl implements AccountRepository {
             throw new IllegalArgumentException("account id must not be blank.");
         }
 
-        final MyDemoAccountModel account = accountsMap.get(resourceId);
-
-        if (account == null) {
+        if (!accountsMap.containsKey(resourceId)) {
             throw new ConnectorException("404", "Account not found by the id, '" + resourceId + "'.");
         }
 
-        accountsMap.remove(resourceId);
-
-        return account;
+        return accountsMap.remove(resourceId);
     }
 
     @Override

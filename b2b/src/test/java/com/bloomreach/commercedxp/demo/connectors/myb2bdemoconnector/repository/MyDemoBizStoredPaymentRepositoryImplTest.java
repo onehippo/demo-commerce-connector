@@ -15,16 +15,126 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
+import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
+import com.bloomreach.commercedxp.b2b.api.v2.connector.model.BizStoredPaymentModel;
+import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizStoredPaymentRepository;
+import com.bloomreach.commercedxp.b2b.common.v2.connector.form.SimpleBizStoredPaymentForm;
+import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDemoBizStoredPaymentModel;
+import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 public class MyDemoBizStoredPaymentRepositoryImplTest extends AbstractMyDemoBizRepositoryTest {
+
+    private BizStoredPaymentRepository storedPaymentRepository;
+    private List<BizStoredPaymentModel> createdStoredPaymentModels;
 
     @Before
     public void setUp() throws Exception {
+        storedPaymentRepository = new MyDemoBizStoredPaymentRepositoryImpl();
+        createdStoredPaymentModels = new ArrayList<>();
+
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
+
+        SimpleBizStoredPaymentForm form = new SimpleBizStoredPaymentForm();
+        form.setAccountType(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER);
+        form.setDisplayName("My purchase order 1");
+        form.setAccountNumber("PO-001");
+        form.setEnabled(true);
+        createdStoredPaymentModels.add(storedPaymentRepository.create(mockConnector, form));
+
+        form = new SimpleBizStoredPaymentForm();
+        form.setAccountType(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER);
+        form.setDisplayName("My purchase order 2");
+        form.setAccountNumber("PO-002");
+        form.setEnabled(true);
+        createdStoredPaymentModels.add(storedPaymentRepository.create(mockConnector, form));
+
+        form = new SimpleBizStoredPaymentForm();
+        form.setAccountType(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER);
+        form.setDisplayName("My purchase order 3");
+        form.setAccountNumber("PO-003");
+        form.setEnabled(false);
+        createdStoredPaymentModels.add(storedPaymentRepository.create(mockConnector, form));
     }
 
     @Test
     public void testFindAll() throws Exception {
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
+
+        final PageResult<BizStoredPaymentModel> result = storedPaymentRepository.findAll(mockConnector,
+                new QuerySpec());
+        assertEquals(0, result.getOffset());
+        assertEquals(3, result.getSize());
+        assertEquals(3, result.getTotalSize());
+
+        final Iterator<BizStoredPaymentModel> storedPaymentIt = result.iterator();
+
+        BizStoredPaymentModel storedPayment = storedPaymentIt.next();
+        assertNotNull(storedPayment);
+        assertEquals("My purchase order 1", storedPayment.getName());
+        assertEquals("My purchase order 1", storedPayment.getDisplayName());
+        assertEquals(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER, storedPayment.getAccountType());
+        assertEquals("PO-001", storedPayment.getAccountNumber());
+        assertTrue(storedPayment.isEnabled());
+
+        storedPayment = storedPaymentIt.next();
+        assertNotNull(storedPayment);
+        assertEquals("My purchase order 2", storedPayment.getName());
+        assertEquals("My purchase order 2", storedPayment.getDisplayName());
+        assertEquals(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER, storedPayment.getAccountType());
+        assertEquals("PO-002", storedPayment.getAccountNumber());
+        assertTrue(storedPayment.isEnabled());
+
+        storedPayment = storedPaymentIt.next();
+        assertNotNull(storedPayment);
+        assertEquals("My purchase order 3", storedPayment.getName());
+        assertEquals("My purchase order 3", storedPayment.getDisplayName());
+        assertEquals(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER, storedPayment.getAccountType());
+        assertEquals("PO-003", storedPayment.getAccountNumber());
+        assertFalse(storedPayment.isEnabled());
+    }
+
+    @Test
+    public void testFindOne() throws Exception {
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
+
+        String storedPaymentId = createdStoredPaymentModels.get(0).getId();
+        BizStoredPaymentModel storedPayment = storedPaymentRepository.findOne(mockConnector, storedPaymentId, new QuerySpec());
+        assertNotNull(storedPayment);
+        assertEquals("My purchase order 1", storedPayment.getName());
+        assertEquals("My purchase order 1", storedPayment.getDisplayName());
+        assertEquals(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER, storedPayment.getAccountType());
+        assertEquals("PO-001", storedPayment.getAccountNumber());
+        assertTrue(storedPayment.isEnabled());
+
+        storedPaymentId = createdStoredPaymentModels.get(1).getId();
+        storedPayment = storedPaymentRepository.findOne(mockConnector, storedPaymentId, new QuerySpec());
+        assertNotNull(storedPayment);
+        assertEquals("My purchase order 2", storedPayment.getName());
+        assertEquals("My purchase order 2", storedPayment.getDisplayName());
+        assertEquals(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER, storedPayment.getAccountType());
+        assertEquals("PO-002", storedPayment.getAccountNumber());
+        assertTrue(storedPayment.isEnabled());
+
+        storedPaymentId = createdStoredPaymentModels.get(2).getId();
+        storedPayment = storedPaymentRepository.findOne(mockConnector, storedPaymentId, new QuerySpec());
+        assertNotNull(storedPayment);
+        assertEquals("My purchase order 3", storedPayment.getName());
+        assertEquals("My purchase order 3", storedPayment.getDisplayName());
+        assertEquals(MyDemoBizStoredPaymentModel.ACCOUNT_TYPE_PURCHASE_ORDER, storedPayment.getAccountType());
+        assertEquals("PO-003", storedPayment.getAccountNumber());
+        assertFalse(storedPayment.isEnabled());
     }
 }

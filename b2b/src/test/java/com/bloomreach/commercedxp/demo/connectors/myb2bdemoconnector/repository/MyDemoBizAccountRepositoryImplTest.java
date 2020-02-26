@@ -15,7 +15,9 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,15 +35,17 @@ import static org.junit.Assert.assertNotNull;
 public class MyDemoBizAccountRepositoryImplTest extends AbstractMyDemoBizRepositoryTest {
 
     private AccountRepository accountRepository;
+    private List<AccountModel> createdAccountModels;
 
     @Before
     public void setUp() throws Exception {
         accountRepository = new MyDemoBizAccountRepositoryImpl();
+        createdAccountModels = new ArrayList<>();
 
         final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
-        accountRepository.create(mockConnector, new SimpleAccountForm("example1.com", "Example1, Inc."));
-        accountRepository.create(mockConnector, new SimpleAccountForm("example2.com", "Example2, Inc."));
-        accountRepository.create(mockConnector, new SimpleAccountForm("example3.com", "Example3, Inc."));
+        createdAccountModels.add(accountRepository.create(mockConnector, new SimpleAccountForm(null, "Example1, Inc.")));
+        createdAccountModels.add(accountRepository.create(mockConnector, new SimpleAccountForm(null, "Example2, Inc.")));
+        createdAccountModels.add(accountRepository.create(mockConnector, new SimpleAccountForm(null, "Example3, Inc.")));
     }
 
     @Test
@@ -57,19 +61,17 @@ public class MyDemoBizAccountRepositoryImplTest extends AbstractMyDemoBizReposit
 
         AccountModel account = accountIt.next();
         assertNotNull(account);
-        assertEquals("example1.com", account.getId());
+        assertEquals(createdAccountModels.get(0).getId(), account.getId());
         assertEquals("Example1, Inc.", account.getName());
 
         account = accountIt.next();
-        account = accountRepository.findOne(mockConnector, "example2.com", new QuerySpec());
         assertNotNull(account);
-        assertEquals("example2.com", account.getId());
+        assertEquals(createdAccountModels.get(1).getId(), account.getId());
         assertEquals("Example2, Inc.", account.getName());
 
         account = accountIt.next();
-        account = accountRepository.findOne(mockConnector, "example3.com", new QuerySpec());
         assertNotNull(account);
-        assertEquals("example3.com", account.getId());
+        assertEquals(createdAccountModels.get(2).getId(), account.getId());
         assertEquals("Example3, Inc.", account.getName());
     }
 
@@ -77,19 +79,22 @@ public class MyDemoBizAccountRepositoryImplTest extends AbstractMyDemoBizReposit
     public void testFindOne() throws Exception {
         final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
-        AccountModel account = accountRepository.findOne(mockConnector, "example1.com", new QuerySpec());
+        String accountId = createdAccountModels.get(0).getId();
+        AccountModel account = accountRepository.findOne(mockConnector, accountId, new QuerySpec());
         assertNotNull(account);
-        assertEquals("example1.com", account.getId());
+        assertEquals(accountId, account.getId());
         assertEquals("Example1, Inc.", account.getName());
 
-        account = accountRepository.findOne(mockConnector, "example2.com", new QuerySpec());
+        accountId = createdAccountModels.get(1).getId();
+        account = accountRepository.findOne(mockConnector, accountId, new QuerySpec());
         assertNotNull(account);
-        assertEquals("example2.com", account.getId());
+        assertEquals(accountId, account.getId());
         assertEquals("Example2, Inc.", account.getName());
 
-        account = accountRepository.findOne(mockConnector, "example3.com", new QuerySpec());
+        accountId = createdAccountModels.get(2).getId();
+        account = accountRepository.findOne(mockConnector, accountId, new QuerySpec());
         assertNotNull(account);
-        assertEquals("example3.com", account.getId());
+        assertEquals(accountId, account.getId());
         assertEquals("Example3, Inc.", account.getName());
     }
 }
