@@ -29,6 +29,19 @@
 
   <dependencies>
 
+    <!-- This B2B Connector extends B2C Connector. -->
+    <dependency>
+      <groupId>com.bloomreach.commercedxp.demo.connectors</groupId>
+      <artifactId>mydemoconnector-b2c</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.bloomreach.commercedxp</groupId>
+      <artifactId>starterstore-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>com.bloomreach.commercedxp.b2b</groupId>
       <artifactId>starterstore-b2b-api</artifactId>
@@ -90,6 +103,12 @@
     <dependency>
       <groupId>org.onehippo.cms7.hst</groupId>
       <artifactId>hst-mock</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.bloomreach.commercedxp</groupId>
+      <artifactId>starterstore-common</artifactId>
       <scope>test</scope>
     </dependency>
 
