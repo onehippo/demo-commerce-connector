@@ -62,7 +62,7 @@ public class MyDemoCategoryRepositoryImplWithCustomCSVTest extends AbstractMyDem
 
     @Test
     public void testFindAll() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
         PageResult<CategoryModel> pageResult = categoryRepository.findAll(mockConnector, querySpec);
@@ -93,7 +93,7 @@ public class MyDemoCategoryRepositoryImplWithCustomCSVTest extends AbstractMyDem
 
     @Test
     public void testFindOne() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
 

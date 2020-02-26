@@ -70,7 +70,7 @@ public class MyDemoProductRepositoryImplWithCustomCSVTest extends AbstractMyDemo
         // Create a mock CommerceConnector instance which simply sets the default (CRISP) resource space name
         // even if CRISP is not used in our demo module. See AbstractMyDemoRepositoryTest#createMockCommerceConnector()
         // for detail on how it can create a mock CommerceConnector and CommerceConnectorComponent instances using EasyMock.
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         // Create a QuerySpec with default pagination info,
         // and invoke the ProductRepository with that.
@@ -118,7 +118,7 @@ public class MyDemoProductRepositoryImplWithCustomCSVTest extends AbstractMyDemo
 
     @Test
     public void testFindOne() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
         ItemId itemId = new SimpleItemId("X-Class-S", "10002");
@@ -135,7 +135,7 @@ public class MyDemoProductRepositoryImplWithCustomCSVTest extends AbstractMyDemo
 
     @Test
     public void testFindAllByCategory() throws Exception {
-        final CommerceConnector mockConnector = createMockCommerceConnector("mydemoSpace");
+        final CommerceConnector mockConnector = createMockCommerceConnector("mydemo", "mydemoSpace");
 
         QuerySpec querySpec = new QuerySpec();
         PageResult<ItemModel> pageResult = productRepository.findAllByCategory(mockConnector,

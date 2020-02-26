@@ -17,7 +17,7 @@ package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
@@ -40,15 +40,8 @@ public abstract class AbstractMyDemoRepositoryTest {
 
     protected CommerceConnector createMockCommerceConnector(final String connectorId, final String resourceSpace,
             CommerceConnectorComponent... components) {
-        final Map<String, CommerceConnectorComponent> componentMap = new HashMap<>();
-
-        if (components != null) {
-            for (CommerceConnectorComponent component : components) {
-                componentMap.put(component.getId(), component);
-            }
-        }
-
-        return createMockCommerceConnector(connectorId, resourceSpace, Arrays.asList(components));
+        return createMockCommerceConnector(connectorId, resourceSpace,
+                (components != null) ? Arrays.asList(components) : Collections.emptyList());
     }
 
     protected CommerceConnector createMockCommerceConnector(final String connectorId, final String resourceSpace,
