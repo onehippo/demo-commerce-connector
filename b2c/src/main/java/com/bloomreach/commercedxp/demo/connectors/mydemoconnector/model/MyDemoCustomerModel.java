@@ -15,10 +15,10 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model;
 
+import com.bloomreach.commercedxp.api.v2.connector.model.AbstractCustomerModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.AddressGroupModel;
-import com.bloomreach.commercedxp.api.v2.connector.model.CustomerModel;
 
-public class MyDemoCustomerModel implements CustomerModel {
+public class MyDemoCustomerModel extends AbstractCustomerModel {
 
     private final String id;
     private String firstName;

@@ -15,9 +15,59 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
+import com.bloomreach.commercedxp.api.v2.connector.form.CustomerForm;
+import com.bloomreach.commercedxp.api.v2.connector.model.AccountModel;
+import com.bloomreach.commercedxp.api.v2.connector.model.CustomerModel;
+import com.bloomreach.commercedxp.api.v2.connector.repository.AccountRepository;
+import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizCustomerRepository;
+import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model.MyDemoCustomerModel;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoCustomerRepositoryImpl;
+import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 public class MyDemoBizCustomerRepositoryImpl extends MyDemoCustomerRepositoryImpl implements BizCustomerRepository {
 
+    private AccountRepository accountRepository;
+
+    public AccountRepository getAccountRepository() {
+        return accountRepository;
+    }
+
+    public void setAccountRepository(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    @Override
+    public CustomerModel findOne(CommerceConnector connector, String id, QuerySpec querySpec)
+            throws ConnectorException {
+        final CustomerModel customerModel = super.findOne(connector, id, querySpec);
+        ((MyDemoCustomerModel) customerModel).setAccount(getAccountModelByCustomerModel(connector, customerModel));
+        return customerModel;
+    }
+
+    @Override
+    public CustomerModel checkIn(CommerceConnector connector, CustomerForm resourceForm) throws ConnectorException {
+        final CustomerModel customerModel = super.checkIn(connector, resourceForm);
+        ((MyDemoCustomerModel) customerModel).setAccount(getAccountModelByCustomerModel(connector, customerModel));
+        return customerModel;
+    }
+
+    private AccountModel getAccountModelByCustomerModel(final CommerceConnector connector,
+            final CustomerModel customerModel) {
+        AccountModel accountModel = null;
+
+        if (customerModel != null) {
+            // For simplicity and demonstration purpose, let's assume the accountId is the same as domain name of customer's e-mail address.
+            final String accountId = StringUtils.substringBefore(customerModel.getEmail(), "@");
+
+            if (StringUtils.isNotBlank(accountId)) {
+                accountModel = getAccountRepository().findOne(connector, accountId, new QuerySpec());
+            }
+        }
+
+        return accountModel;
+    }
 }

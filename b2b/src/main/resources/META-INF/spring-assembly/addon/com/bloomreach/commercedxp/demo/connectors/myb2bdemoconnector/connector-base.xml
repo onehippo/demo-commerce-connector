@@ -77,6 +77,7 @@
   </bean>
 
   <bean id="bizCustomerRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizCustomerRepositoryImpl">
+    <property name="accountRepository" ref="bizAccountRepository" />
   </bean>
 
   <bean id="bizAddressRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizAddressRepositoryImpl">
