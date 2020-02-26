@@ -32,17 +32,17 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 /**
  * Demo Data Loader Utility.
  */
-final class MyDemoDataLoader {
+public class MyDemoDataLoader {
 
     /**
      * The name of the optional system property which specifies demo products data in CSV format.
      */
-    static final String SYS_PROP_DEMO_PRODUCTS_CSV = "demo.products.csv";
+    public static final String SYS_PROP_DEMO_PRODUCTS_CSV = "demo.products.csv";
 
     /**
      * The name of the optional system property which specifies demo categories data in CSV format.
      */
-    static final String SYS_PROP_DEMO_CATEGORIES_CSV = "demo.categories.csv";
+    public static final String SYS_PROP_DEMO_CATEGORIES_CSV = "demo.categories.csv";
 
     /**
      * Default demo product data JSON resource path in BrSM product response data format.
@@ -109,13 +109,13 @@ final class MyDemoDataLoader {
 
     static MyDemoData myDemoData;
 
-    private MyDemoDataLoader() {
+    protected MyDemoDataLoader() {
     }
 
     /**
      * Return the static MyDemoData instance which is loaded from the static JSON resource.
      */
-    static synchronized MyDemoData getMyDemoData() {
+    public static synchronized MyDemoData getMyDemoData() {
         MyDemoData data = myDemoData;
 
         if (data == null) {
@@ -129,7 +129,7 @@ final class MyDemoDataLoader {
     /**
      * Clear the existing static MyDemoData instance. e.g, from unit test to reset the data.
      */
-    static synchronized void clearMyDemoData() {
+    protected static synchronized void clearMyDemoData() {
         myDemoData = null;
     }
 }
