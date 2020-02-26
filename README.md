@@ -1,5 +1,5 @@
 # demo-commerce-connector
-Example commerce connector implementation for learning and demonstration purpose, compliant with StarterStore v2 Commerce Connector SDK.
+Example commerce connector implementation for learning and demonstration purpose, compliant with StarterStore v14 Commerce Connector SDK.
 
 ## Documentation
 
