@@ -54,13 +54,13 @@
   <bean id="customerRepository" class="com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoCustomerRepositoryImpl">
   </bean>
 
+  <bean id="addressRepository" class="com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoAddressRepositoryImpl">
+  </bean>
+
   <bean id="cartRepository" class="com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoCartRepositoryImpl">
   </bean>
 
   <bean id="orderRepository" class="com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoOrderRepositoryImpl">
-  </bean>
-
-  <bean id="addressRepository" class="com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoAddressRepositoryImpl">
   </bean>
 
 </beans>

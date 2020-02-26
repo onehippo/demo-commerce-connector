@@ -37,6 +37,8 @@
                value-ref="bizProductRepository" />
         <entry key="com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizProductRepository"
                value-ref="bizProductRepository" />
+        <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.AccountRepository"
+               value-ref="bizAccountRepository" />
         <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.CustomerRepository"
                value-ref="bizCustomerRepository" />
         <entry key="com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizCustomerRepository"
@@ -53,6 +55,14 @@
                value-ref="bizOrderRepository" />
         <entry key="com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizOrderRepository"
                value-ref="bizOrderRepository" />
+        <entry key="com.bloomreach.commercedxp.api.v2.connector.repository.WishListRepository"
+               value-ref="bizWishListRepository" />
+        <entry key="com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizWishListRepository"
+               value-ref="bizWishListRepository" />
+        <entry key="com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizStoredPaymentRepository"
+               value-ref="bizStoredPaymentRepository" />
+        <entry key="com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizInvoiceRepository"
+               value-ref="bizInvoiceRepository" />
       </map>
     </property>
   </bean>
@@ -63,7 +73,13 @@
   <bean id="bizProductRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizProductRepositoryImpl">
   </bean>
 
+  <bean id="bizAccountRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizAccountRepositoryImpl">
+  </bean>
+
   <bean id="bizCustomerRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizCustomerRepositoryImpl">
+  </bean>
+
+  <bean id="bizAddressRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizAddressRepositoryImpl">
   </bean>
 
   <bean id="bizCartRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizCartRepositoryImpl">
@@ -72,7 +88,13 @@
   <bean id="bizOrderRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizOrderRepositoryImpl">
   </bean>
 
-  <bean id="bizAddressRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizAddressRepositoryImpl">
+  <bean id="bizWishListRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizWishListRepositoryImpl">
+  </bean>
+
+  <bean id="bizStoredPaymentRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizStoredPaymentRepositoryImpl">
+  </bean>
+
+  <bean id="bizInvoiceRepository" class="com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository.MyDemoBizInvoiceRepositoryImpl">
   </bean>
 
 </beans>
