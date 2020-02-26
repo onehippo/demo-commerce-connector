@@ -15,13 +15,33 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository;
 
+import org.hippoecm.hst.container.ModifiableRequestContextProvider;
+import org.hippoecm.hst.mock.core.request.MockHstRequestContext;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.bloomreach.commercedxp.api.v2.connector.visitor.TransientVisitorAccessToken;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.TransientVisitorContext;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContext;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContextAccess;
+import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 
 public class MyDemoBizWishListRepositoryImplTest extends AbstractMyDemoBizRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
+        ModifiableRequestContextProvider.set(new MockHstRequestContext());
+        final VisitorContext visitorContext = new TransientVisitorContext("user001", "john@example.com",
+                new TransientVisitorAccessToken("token"), false);
+        visitorContext.setAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID, "account001");
+        VisitorContextAccess.setCurrentVisitorContext(visitorContext);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        VisitorContextAccess.removeCurrentVisitorContext();
+        ModifiableRequestContextProvider.clear();
     }
 
     @Test

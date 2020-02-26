@@ -19,15 +19,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hippoecm.hst.container.ModifiableRequestContextProvider;
+import org.hippoecm.hst.mock.core.request.MockHstRequestContext;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
 import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.TransientVisitorAccessToken;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.TransientVisitorContext;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContext;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContextAccess;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.model.BizStoredPaymentModel;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizStoredPaymentRepository;
 import com.bloomreach.commercedxp.b2b.common.v2.connector.form.SimpleBizStoredPaymentForm;
 import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDemoBizStoredPaymentModel;
+import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 import static org.junit.Assert.assertEquals;
@@ -42,6 +50,12 @@ public class MyDemoBizStoredPaymentRepositoryImplTest extends AbstractMyDemoBizR
 
     @Before
     public void setUp() throws Exception {
+        ModifiableRequestContextProvider.set(new MockHstRequestContext());
+        final VisitorContext visitorContext = new TransientVisitorContext("user001", "john@example.com",
+                new TransientVisitorAccessToken("token"), false);
+        visitorContext.setAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID, "account001");
+        VisitorContextAccess.setCurrentVisitorContext(visitorContext);
+
         storedPaymentRepository = new MyDemoBizStoredPaymentRepositoryImpl();
         createdStoredPaymentModels = new ArrayList<>();
 
@@ -67,6 +81,12 @@ public class MyDemoBizStoredPaymentRepositoryImplTest extends AbstractMyDemoBizR
         form.setAccountNumber("PO-003");
         form.setEnabled(false);
         createdStoredPaymentModels.add(storedPaymentRepository.create(mockConnector, form));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        VisitorContextAccess.removeCurrentVisitorContext();
+        ModifiableRequestContextProvider.clear();
     }
 
     @Test

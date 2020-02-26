@@ -26,10 +26,13 @@ import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
 import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
 import com.bloomreach.commercedxp.api.v2.connector.model.SimplePageResult;
 import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContext;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContextAccess;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.form.BizStoredPaymentForm;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.model.BizStoredPaymentModel;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizStoredPaymentRepository;
 import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDemoBizStoredPaymentModel;
+import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRepository {
@@ -39,18 +42,51 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
     @Override
     public BizStoredPaymentModel findOne(CommerceConnector connector, String id, QuerySpec querySpec)
             throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         return storedPaymentsMap.get(id);
     }
 
     @Override
     public PageResult<BizStoredPaymentModel> findAll(CommerceConnector connector, QuerySpec querySpec)
             throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         return new SimplePageResult<>(storedPaymentsMap.values(), 0, storedPaymentsMap.size(), storedPaymentsMap.size());
     }
 
     @Override
     public BizStoredPaymentModel save(CommerceConnector connector, BizStoredPaymentForm resourceForm)
             throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         if (StringUtils.isBlank(resourceForm.getId())) {
             throw new IllegalArgumentException("Stored payment ID must not be null.");
         }
@@ -80,6 +116,17 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
     @Override
     public BizStoredPaymentModel create(CommerceConnector connector, BizStoredPaymentForm resourceForm)
             throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         if (StringUtils.isBlank(resourceForm.getAccountType())) {
             throw new IllegalArgumentException("Stored payment ID must not be null.");
         }
@@ -100,6 +147,17 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
 
     @Override
     public BizStoredPaymentModel delete(CommerceConnector connector, String resourceId) throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         if (StringUtils.isBlank(resourceId)) {
             throw new IllegalArgumentException("Stored payment ID must not be null.");
         }

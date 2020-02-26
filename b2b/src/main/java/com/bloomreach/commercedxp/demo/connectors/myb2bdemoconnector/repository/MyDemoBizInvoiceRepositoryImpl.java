@@ -15,11 +15,16 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
 import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
 import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContext;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContextAccess;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.model.BizInvoiceModel;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizInvoiceRepository;
+import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 public class MyDemoBizInvoiceRepositoryImpl implements BizInvoiceRepository {
@@ -27,6 +32,17 @@ public class MyDemoBizInvoiceRepositoryImpl implements BizInvoiceRepository {
     @Override
     public BizInvoiceModel findOne(CommerceConnector connector, String id, QuerySpec querySpec)
             throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         // TODO Auto-generated method stub
         return null;
     }
@@ -34,6 +50,17 @@ public class MyDemoBizInvoiceRepositoryImpl implements BizInvoiceRepository {
     @Override
     public PageResult<BizInvoiceModel> findAll(CommerceConnector connector, QuerySpec querySpec)
             throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         // TODO Auto-generated method stub
         return null;
     }

@@ -15,83 +15,11 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.bloomreach.commercedxp.api.v2.connector.model.CartEntryModel;
-import com.bloomreach.commercedxp.api.v2.connector.model.ItemLike;
-import com.bloomreach.commercedxp.api.v2.connector.model.ItemModel;
 
-public class MyDemoCartEntryModel implements CartEntryModel {
-
-    private final String id;
-    private int quantity;
-    private List<ItemModel> items;
+public class MyDemoCartEntryModel extends MyDemoItemListEntryModel implements CartEntryModel {
 
     public MyDemoCartEntryModel(final String id) {
-        this.id = id;
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public List<ItemLike> getItems() {
-        if (items == null) {
-            return Collections.emptyList();
-        }
-
-        return Collections.unmodifiableList(items);
-    }
-
-    public void setItems(List<ItemModel> items) {
-        this.items = items;
-    }
-
-    public ItemModel addItem(ItemModel item) {
-        if (items == null) {
-            items = new LinkedList<>();
-        }
-
-        if (items.add(item)) {
-            return item;
-        }
-
-        return null;
-    }
-
-    public ItemModel removeItem(ItemModel item) {
-        if (items == null) {
-            return null;
-        }
-
-        ItemModel toRemove = null;
-
-        for (ItemModel itemModel : items) {
-            if (itemModel.getItemId().equals(item.getItemId())) {
-                toRemove = itemModel;
-                break;
-            }
-        }
-
-        if (toRemove != null) {
-            if (items.remove(toRemove)) {
-                return toRemove;
-            }
-        }
-
-        return null;
+        super(id);
     }
 }

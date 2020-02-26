@@ -15,58 +15,129 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
 import com.bloomreach.commercedxp.api.v2.connector.form.WishListForm;
 import com.bloomreach.commercedxp.api.v2.connector.model.PageResult;
+import com.bloomreach.commercedxp.api.v2.connector.model.SimplePageResult;
 import com.bloomreach.commercedxp.api.v2.connector.model.WishListModel;
 import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContext;
+import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContextAccess;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizWishListRepository;
+import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDemoWishListModel;
+import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 public class MyDemoBizWishListRepositoryImpl implements BizWishListRepository {
 
+    private Map<String, MyDemoWishListModel> wishListsMap = Collections.synchronizedMap(new LinkedHashMap<>());
+
     @Override
     public WishListModel findOne(CommerceConnector connector, String id, QuerySpec querySpec)
             throws ConnectorException {
-        // TODO Auto-generated method stub
-        return null;
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
+        return wishListsMap.get(id);
     }
 
     @Override
     public PageResult<WishListModel> findAll(CommerceConnector connector, QuerySpec querySpec)
             throws ConnectorException {
-        // TODO Auto-generated method stub
-        return null;
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
+        return new SimplePageResult<>(wishListsMap.values(), 0, wishListsMap.size(), wishListsMap.size());
     }
 
     @Override
     public WishListModel save(CommerceConnector connector, WishListForm resourceForm) throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public WishListModel create(CommerceConnector connector, WishListForm resourceForm) throws ConnectorException {
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public WishListModel delete(CommerceConnector connector, String resourceId) throws ConnectorException {
-        // TODO Auto-generated method stub
-        return null;
+        if (!VisitorContextAccess.hasCurrentVisitorContext()) {
+            throw new ConnectorException("401", "Expecting a visitor context");
+        }
+
+        final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
+        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+
+        if (StringUtils.isBlank(accountId)) {
+            throw new ConnectorException("403", "No account info found.");
+        }
+
+        if (StringUtils.isBlank(resourceId)) {
+            throw new IllegalArgumentException("Wish list ID must not be null.");
+        }
+
+        if (!wishListsMap.containsKey(resourceId)) {
+            throw new ConnectorException("404", "Wish list not found by ID, '" + resourceId + "'.");
+        }
+
+        return wishListsMap.remove(resourceId);
     }
 
     @Override
     public WishListModel checkIn(CommerceConnector connector, WishListForm resourceForm) throws ConnectorException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public WishListModel checkOut(CommerceConnector connector, WishListForm resourceForm) throws ConnectorException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 }

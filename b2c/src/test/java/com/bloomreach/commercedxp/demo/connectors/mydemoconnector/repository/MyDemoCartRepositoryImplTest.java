@@ -50,7 +50,7 @@ public class MyDemoCartRepositoryImplTest extends AbstractMyDemoRepositoryTest {
         cartRepository = new MyDemoCartRepositoryImpl();
 
         ModifiableRequestContextProvider.set(new MockHstRequestContext());
-        final VisitorContext visitorContext = new TransientVisitorContext("john@example.com",
+        final VisitorContext visitorContext = new TransientVisitorContext("user001", "john@example.com",
                 new TransientVisitorAccessToken("token"), false);
         VisitorContextAccess.setCurrentVisitorContext(visitorContext);
     }
