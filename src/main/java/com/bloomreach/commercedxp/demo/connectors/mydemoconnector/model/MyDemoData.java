@@ -15,18 +15,29 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MyDemoData {
 
-    private MyDemoResponse response;
-    private Map<String, String> categoryMap;
-
     @JsonProperty("response")
+    private MyDemoResponse response;
+
+    @JsonProperty("category_map")
+    private Map<String, String> categoryIdNameMap;
+
+    @JsonIgnore
+    private Map<String, MyDemoCategoryModel> categoryMap;
+
     public MyDemoResponse getResponse() {
         return response;
     }
@@ -35,13 +46,47 @@ public class MyDemoData {
         this.response = response;
     }
 
-    @JsonProperty("category_map")
-    public Map<String, String> getCategoryMap() {
-        return categoryMap;
+    public Map<String, MyDemoCategoryModel> getCategoryMap() {
+        if (categoryMap == null && categoryIdNameMap != null) {
+            final Map<String, MyDemoCategoryModel> tempMap = new LinkedHashMap<>();
+
+            for (Map.Entry<String, String> entry : categoryIdNameMap.entrySet()) {
+                final String catId = entry.getKey();
+                final String catName = entry.getValue();
+                tempMap.put(catId, new MyDemoCategoryModel(catId, catName));
+            }
+
+            categoryMap = tempMap;
+        }
+
+        return (categoryMap != null) ? Collections.unmodifiableMap(categoryMap) : Collections.emptyMap();
     }
 
-    public void setCategoryMap(Map<String, String> categoryMap) {
+    public void setCategoryMap(Map<String, MyDemoCategoryModel> categoryMap) {
         this.categoryMap = categoryMap;
     }
 
+    public void setCategoryModels(final List<MyDemoCategoryModel> categoryModels) {
+        categoryMap = new LinkedHashMap<>();
+
+        for (MyDemoCategoryModel categoryModel : categoryModels) {
+            categoryMap.put(categoryModel.getId(), categoryModel);
+        }
+    }
+
+    public void resetCategoryModelHierarchy() {
+        final Map<String, MyDemoCategoryModel> catMap = getCategoryMap();
+
+        for (MyDemoCategoryModel catModel : catMap.values()) {
+            final String parentId = catModel.getParentId();
+
+            if (StringUtils.isNotBlank(parentId)) {
+                final MyDemoCategoryModel parentCatModel = catMap.get(parentId);
+
+                if (parentCatModel != null) {
+                    parentCatModel.addChild(catModel);
+                }
+            }
+        }
+    }
 }

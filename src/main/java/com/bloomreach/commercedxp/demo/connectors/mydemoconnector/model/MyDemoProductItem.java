@@ -50,7 +50,7 @@ public class MyDemoProductItem implements ItemModel {
     private BigDecimal purchasePriceAmount;
 
     private Set<String> categories;
-    
+
     private ItemId itemId;
 
     @JsonProperty("pid")
