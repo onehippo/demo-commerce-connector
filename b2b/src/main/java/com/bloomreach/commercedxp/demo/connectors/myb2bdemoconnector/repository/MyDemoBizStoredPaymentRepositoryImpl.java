@@ -35,9 +35,14 @@ import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDem
 import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
+/**
+ * Simple, demonstration-purpose {@link BizStoredPaymentRepository} implementation, maintaining the stored payment
+ * data per account in in-memory map.
+ */
 public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRepository {
 
-    private Map<String, MyDemoBizStoredPaymentModel> storedPaymentsMap = Collections.synchronizedMap(new LinkedHashMap<>());
+    private Map<String, Map<String, MyDemoBizStoredPaymentModel>> accountStoredPaymentsMap = Collections
+            .synchronizedMap(new LinkedHashMap<>());
 
     @Override
     public BizStoredPaymentModel findOne(CommerceConnector connector, String id, QuerySpec querySpec)
@@ -53,7 +58,8 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
             throw new ConnectorException("403", "No account info found.");
         }
 
-        return storedPaymentsMap.get(id);
+        final Map<String, MyDemoBizStoredPaymentModel> storedPaymentsMap = accountStoredPaymentsMap.get(accountId);
+        return (storedPaymentsMap != null) ? storedPaymentsMap.get(id) : null;
     }
 
     @Override
@@ -70,7 +76,14 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
             throw new ConnectorException("403", "No account info found.");
         }
 
-        return new SimplePageResult<>(storedPaymentsMap.values(), 0, storedPaymentsMap.size(), storedPaymentsMap.size());
+        final Map<String, MyDemoBizStoredPaymentModel> storedPaymentsMap = accountStoredPaymentsMap.get(accountId);
+
+        if (storedPaymentsMap == null) {
+            return SimplePageResult.emptyResult();
+        }
+
+        return new SimplePageResult<>(storedPaymentsMap.values(), 0, storedPaymentsMap.size(),
+                storedPaymentsMap.size());
     }
 
     @Override
@@ -99,7 +112,10 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
             throw new IllegalArgumentException("Stored payment ID must not be null.");
         }
 
-        MyDemoBizStoredPaymentModel storedPayment = storedPaymentsMap.get(resourceForm.getId());
+        final Map<String, MyDemoBizStoredPaymentModel> storedPaymentsMap = accountStoredPaymentsMap.get(accountId);
+        MyDemoBizStoredPaymentModel storedPayment = (storedPaymentsMap != null)
+                ? storedPaymentsMap.get(resourceForm.getId())
+                : null;
 
         if (storedPayment == null) {
             throw new ConnectorException("404", "Stored payment not found by ID, '" + resourceForm.getId() + "'.");
@@ -140,6 +156,13 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
         storedPayment.setDisplayName(resourceForm.getDisplayName());
         storedPayment.setEnabled(resourceForm.isEnabled());
 
+        Map<String, MyDemoBizStoredPaymentModel> storedPaymentsMap = accountStoredPaymentsMap.get(accountId);
+
+        if (storedPaymentsMap == null) {
+            storedPaymentsMap = Collections.synchronizedMap(new LinkedHashMap<>());
+            accountStoredPaymentsMap.put(accountId, storedPaymentsMap);
+        }
+
         storedPaymentsMap.put(storedPayment.getId(), storedPayment);
 
         return storedPayment;
@@ -162,7 +185,9 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
             throw new IllegalArgumentException("Stored payment ID must not be null.");
         }
 
-        if (!storedPaymentsMap.containsKey(resourceId)) {
+        Map<String, MyDemoBizStoredPaymentModel> storedPaymentsMap = accountStoredPaymentsMap.get(accountId);
+
+        if (storedPaymentsMap == null || !storedPaymentsMap.containsKey(resourceId)) {
             throw new ConnectorException("404", "Stored payment not found by ID, '" + resourceId + "'.");
         }
 

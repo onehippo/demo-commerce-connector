@@ -27,6 +27,10 @@ import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizInvoiceRepo
 import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
+/**
+ * Simple, demonstration-purpose {@link BizInvoiceRepository} implementation, maintaining the stored payment
+ * data per account in in-memory map.
+ */
 public class MyDemoBizInvoiceRepositoryImpl implements BizInvoiceRepository {
 
     @Override

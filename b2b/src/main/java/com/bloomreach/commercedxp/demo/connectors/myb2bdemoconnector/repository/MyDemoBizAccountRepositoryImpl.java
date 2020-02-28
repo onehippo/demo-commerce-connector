@@ -32,6 +32,10 @@ import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
 import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDemoAccountModel;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
+/**
+ * Simple, demonstration-purpose {@link AccountRepository} implementation, which maintains all the account models
+ * in memory.
+ */
 public class MyDemoBizAccountRepositoryImpl implements AccountRepository {
 
     private Map<String, MyDemoAccountModel> accountsMap = Collections.synchronizedMap(new LinkedHashMap<>());

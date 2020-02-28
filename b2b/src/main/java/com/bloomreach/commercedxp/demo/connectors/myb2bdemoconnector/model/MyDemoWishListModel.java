@@ -16,9 +16,14 @@
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.bloomreach.commercedxp.api.v2.connector.model.ItemId;
+import com.bloomreach.commercedxp.api.v2.connector.model.ItemLike;
 import com.bloomreach.commercedxp.api.v2.connector.model.ItemListEntryModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.WishListModel;
 
@@ -58,5 +63,38 @@ public class MyDemoWishListModel implements WishListModel {
         }
 
         entries.add(entry);
+    }
+
+    public ItemListEntryModel findEntryByItemId(final ItemId entryItemId) {
+        if (entries == null) {
+            return null;
+        }
+
+        for (ItemListEntryModel entry : entries) {
+            for (ItemLike item : entry.getItems()) {
+                if (entryItemId.equals(item.getItemId())) {
+                    return entry;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public boolean removeEntryById(final String entryId) {
+        if (entries == null) {
+            return false;
+        }
+
+        for (Iterator<ItemListEntryModel> it = entries.iterator(); it.hasNext(); ) {
+            final ItemListEntryModel entry = it.next();
+
+            if (StringUtils.equals(entryId, entry.getId())) {
+                it.remove();
+                return true;
+            }
+        }
+
+        return false;
     }
 }

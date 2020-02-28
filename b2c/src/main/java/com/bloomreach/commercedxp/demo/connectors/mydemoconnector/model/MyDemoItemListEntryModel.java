@@ -18,6 +18,7 @@ package com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import com.bloomreach.commercedxp.api.v2.connector.model.ItemLike;
 import com.bloomreach.commercedxp.api.v2.connector.model.ItemListEntryModel;
@@ -93,5 +94,28 @@ public class MyDemoItemListEntryModel implements ItemListEntryModel {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof MyDemoItemListEntryModel)) {
+            return false;
+        }
+
+        final MyDemoItemListEntryModel that = (MyDemoItemListEntryModel) o;
+
+        if (!Objects.equals(id, that.id)) {
+            return false;
+        }
+
+        if (quantity != that.quantity) {
+            return false;
+        }
+
+        if (!Objects.equals(getItems(), that.getItems())) {
+            return false;
+        }
+
+        return true;
     }
 }

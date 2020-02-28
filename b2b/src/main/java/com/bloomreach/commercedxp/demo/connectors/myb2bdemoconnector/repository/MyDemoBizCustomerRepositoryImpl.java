@@ -22,12 +22,18 @@ import com.bloomreach.commercedxp.api.v2.connector.form.CustomerForm;
 import com.bloomreach.commercedxp.api.v2.connector.model.AccountModel;
 import com.bloomreach.commercedxp.api.v2.connector.model.CustomerModel;
 import com.bloomreach.commercedxp.api.v2.connector.repository.AccountRepository;
+import com.bloomreach.commercedxp.api.v2.connector.repository.CustomerRepository;
 import com.bloomreach.commercedxp.api.v2.connector.repository.QuerySpec;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizCustomerRepository;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model.MyDemoCustomerModel;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoCustomerRepositoryImpl;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
+/**
+ * Simple, demonstration-purpose {@link BizCustomerRepository} implementation, which extends the existing B2C
+ * {@link CustomerRepository} implementation with an addition to set the {@link AccountModel} of the the specific
+ * {@link CustomerModel} when the customer checks in (sign-in) or is retrieved.
+ */
 public class MyDemoBizCustomerRepositoryImpl extends MyDemoCustomerRepositoryImpl implements BizCustomerRepository {
 
     private AccountRepository accountRepository;

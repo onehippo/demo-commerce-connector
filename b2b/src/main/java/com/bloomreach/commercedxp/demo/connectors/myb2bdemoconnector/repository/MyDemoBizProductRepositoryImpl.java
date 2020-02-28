@@ -15,9 +15,14 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository;
 
+import com.bloomreach.commercedxp.api.v2.connector.repository.ProductRepository;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizProductRepository;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoProductRepositoryImpl;
 
+/**
+ * Simple, demonstration-purpose {@link BizProductRepository} implementation, which extends the existing B2C
+ * {@link ProductRepository} implementation as there's no big difference between B2C and B2B yet.
+ */
 public class MyDemoBizProductRepositoryImpl extends MyDemoProductRepositoryImpl implements BizProductRepository {
 
 }

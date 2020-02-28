@@ -15,9 +15,14 @@
  */
 package com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.repository;
 
+import com.bloomreach.commercedxp.api.v2.connector.repository.CategoryRepository;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizCategoryRepository;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoCategoryRepositoryImpl;
 
+/**
+ * Simple, demonstration-purpose {@link BizCategoryRepository} implementation, which extends the existing B2C
+ * {@link CategoryRepository} implementation as there's no big difference between B2C and B2B yet.
+ */
 public class MyDemoBizCategoryRepositoryImpl extends MyDemoCategoryRepositoryImpl implements BizCategoryRepository {
 
 }
