@@ -30,7 +30,6 @@ import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContextAccess;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.model.BizInvoiceModel;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizInvoiceRepository;
 import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDemoBizInvoiceModel;
-import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 /**
@@ -55,7 +54,7 @@ public class MyDemoBizInvoiceRepositoryImpl implements BizInvoiceRepository {
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -73,7 +72,7 @@ public class MyDemoBizInvoiceRepositoryImpl implements BizInvoiceRepository {
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");

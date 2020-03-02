@@ -39,7 +39,6 @@ import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDem
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model.MyDemoItemListEntryModel;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.model.MyDemoProductItem;
 import com.bloomreach.commercedxp.demo.connectors.mydemoconnector.repository.MyDemoDataLoader;
-import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 /**
@@ -61,7 +60,7 @@ public class MyDemoBizWishListRepositoryImpl implements BizWishListRepository {
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -79,7 +78,7 @@ public class MyDemoBizWishListRepositoryImpl implements BizWishListRepository {
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -101,7 +100,7 @@ public class MyDemoBizWishListRepositoryImpl implements BizWishListRepository {
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -130,7 +129,7 @@ public class MyDemoBizWishListRepositoryImpl implements BizWishListRepository {
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -159,7 +158,7 @@ public class MyDemoBizWishListRepositoryImpl implements BizWishListRepository {
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");

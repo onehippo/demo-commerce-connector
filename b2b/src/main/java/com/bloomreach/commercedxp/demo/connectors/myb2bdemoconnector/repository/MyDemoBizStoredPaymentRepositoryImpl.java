@@ -32,7 +32,6 @@ import com.bloomreach.commercedxp.b2b.api.v2.connector.form.BizStoredPaymentForm
 import com.bloomreach.commercedxp.b2b.api.v2.connector.model.BizStoredPaymentModel;
 import com.bloomreach.commercedxp.b2b.api.v2.connector.repository.BizStoredPaymentRepository;
 import com.bloomreach.commercedxp.demo.connectors.myb2bdemoconnector.model.MyDemoBizStoredPaymentModel;
-import com.bloomreach.commercedxp.starterstore.StarterStoreConstants;
 import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
 
 /**
@@ -52,7 +51,7 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -70,7 +69,7 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -94,7 +93,7 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -137,7 +136,7 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
@@ -175,7 +174,7 @@ public class MyDemoBizStoredPaymentRepositoryImpl implements BizStoredPaymentRep
         }
 
         final VisitorContext visitorContext = VisitorContextAccess.getCurrentVisitorContext();
-        final String accountId = (String) visitorContext.getAttribute(StarterStoreConstants.ATTRIBUTE_ACCOUNT_ID);
+        final String accountId = MyDemoAccountUtils.getVisitorAccountId(visitorContext);
 
         if (StringUtils.isBlank(accountId)) {
             throw new ConnectorException("403", "No account info found.");
