@@ -50,14 +50,22 @@ public class MyDemoBizCustomerRepositoryImpl extends MyDemoCustomerRepositoryImp
     public CustomerModel findOne(CommerceConnector connector, String id, QuerySpec querySpec)
             throws ConnectorException {
         final CustomerModel customerModel = super.findOne(connector, id, querySpec);
-        ((MyDemoCustomerModel) customerModel).setAccount(getAccountModelByCustomerModel(connector, customerModel));
+
+        if (customerModel != null) {
+            ((MyDemoCustomerModel) customerModel).setAccount(getAccountModelByCustomerModel(connector, customerModel));
+        }
+
         return customerModel;
     }
 
     @Override
     public CustomerModel checkIn(CommerceConnector connector, CustomerForm resourceForm) throws ConnectorException {
         final CustomerModel customerModel = super.checkIn(connector, resourceForm);
-        ((MyDemoCustomerModel) customerModel).setAccount(getAccountModelByCustomerModel(connector, customerModel));
+
+        if (customerModel != null) {
+            ((MyDemoCustomerModel) customerModel).setAccount(getAccountModelByCustomerModel(connector, customerModel));
+        }
+
         return customerModel;
     }
 
