@@ -20,6 +20,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
 import com.bloomreach.commercedxp.api.v2.connector.form.CustomerForm;
@@ -34,6 +36,8 @@ import com.bloomreach.commercedxp.starterstore.connectors.CommerceConnector;
  * Demo CustomerRepository Implementation.
  */
 public class MyDemoCustomerRepositoryImpl extends AbstractCustomerRepository {
+
+    private static Logger log = LoggerFactory.getLogger(MyDemoCustomerRepositoryImpl.class);
 
     /**
      * Let's keep the customer map by id in-memory here, initially empty.
@@ -141,14 +145,16 @@ public class MyDemoCustomerRepositoryImpl extends AbstractCustomerRepository {
 
     @Override
     public CustomerModel checkOut(CommerceConnector connector, CustomerForm resourceForm) throws ConnectorException {
-        // For demo purpose, let's disallow to sign out customer if e-mail address is blank.
-        if (StringUtils.isBlank(resourceForm.getEmail())) {
-            throw new IllegalArgumentException("Blank customer's E-Mail address.");
+        // For demo purpose, let's just leave warning log if e-mail address is blank.
+        final String email = (resourceForm != null) ? resourceForm.getEmail() : null;
+        if (StringUtils.isBlank(email)) {
+            log.warn("Blank customer's E-Mail address.");
+            return null;
         }
 
         // More advanced Commerce Connector Module might want to update the customer states in the backend
         // when a customer wants to sign out.
         // But in our demo, let's just return the customer model for simplicity.
-        return customerModelsByEmail.get(resourceForm.getEmail());
+        return customerModelsByEmail.get(email);
     }
 }
