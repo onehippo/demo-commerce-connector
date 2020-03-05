@@ -24,8 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bloomreach.commercedxp.api.v2.connector.ConnectorException;
 import com.bloomreach.commercedxp.api.v2.connector.form.CartEntryForm;
-import com.bloomreach.commercedxp.api.v2.connector.form.ItemListEntryForm.ACTION;
 import com.bloomreach.commercedxp.api.v2.connector.form.CartForm;
+import com.bloomreach.commercedxp.api.v2.connector.form.ItemListEntryForm.ACTION;
 import com.bloomreach.commercedxp.api.v2.connector.model.CartModel;
 import com.bloomreach.commercedxp.api.v2.connector.repository.AbstractCartRepository;
 import com.bloomreach.commercedxp.api.v2.connector.visitor.VisitorContext;
@@ -82,19 +82,25 @@ public class MyDemoCartRepositoryImpl extends AbstractCartRepository {
 
         for (CartEntryForm entryForm : resourceForm.getEntries()) {
             final ACTION action = entryForm.getAction();
+            // In this demo, the cart entry ID is the same as the product ID (ItemId#getId()) for simplicity.
+            final String productId = entryForm.getEntryItemId().getId();
+            final MyDemoCartEntryModel existingEntry = (MyDemoCartEntryModel) cartModel.getEntryById(productId);
 
             switch (action) {
             case CREATE:
-                cartModel.addEntry(createCartEntryModel(entryForm));
-                break;
-            case UPDATE:
-                final MyDemoCartEntryModel entryModel = (MyDemoCartEntryModel) cartModel.getEntryById(entryForm.getEntryItemId().getId());
-                if (entryModel != null) {
-                    entryModel.setQuantity(entryForm.getQuantity());
+                // For simplicity, this demo simulates how most commerce backends just increase the quantity
+                // when the visitor wants to add the same product again.
+                if (existingEntry == null) {
+                    cartModel.addEntry(createCartEntryModel(entryForm));
+                } else {
+                    existingEntry.setQuantity(existingEntry.getQuantity() + entryForm.getQuantity());
                 }
                 break;
+            case UPDATE:
+                existingEntry.setQuantity(entryForm.getQuantity());
+                break;
             case DELETE:
-                cartModel.removeEntryById(entryForm.getEntryItemId().getId());
+                cartModel.removeEntryById(productId);
                 break;
             default:
                 break;
