@@ -20,7 +20,7 @@
   <parent>
     <groupId>com.bloomreach.commercedxp.demo.connectors</groupId>
     <artifactId>mydemoconnector</artifactId>
-    <version>14.1.0</version>
+    <version>14.2.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>mydemoconnector-b2b</artifactId>
