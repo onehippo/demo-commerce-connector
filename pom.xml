@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2019 BloomReach, Inc. (http://www.bloomreach.com)
+  Copyright 2019-2020 BloomReach, Inc. (http://www.bloomreach.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,18 +21,24 @@
   <artifactId>mydemoconnector</artifactId>
   <name>Example Commerce Connector</name>
   <description>Example Commerce Connector Implementation based on StarterStore Commerce Connector SDK</description>
-  <version>14.0.0</version>
+  <version>14.1.0</version>
+  <packaging>pom</packaging>
 
   <properties>
 
-    <starterstore.version>14.0.0</starterstore.version>
-    <hippo.hst.version>14.0.0</hippo.hst.version>
-    <hippo.addon-crisp.version>14.0.0</hippo.addon-crisp.version>
+    <starterstore.version>14.1.0</starterstore.version>
+    <starterstore-b2b.version>14.1.0</starterstore-b2b.version>
+
+    <hippo.hst.version>14.1.0</hippo.hst.version>
+    <hippo.addon-crisp.version>14.1.0</hippo.addon-crisp.version>
 
     <jackson2.version>2.10.1</jackson2.version>
     <jackson2-databind.version>2.10.1</jackson2-databind.version>
 
     <commons-lang3.version>3.2.1</commons-lang3.version>
+
+    <slf4j.version>1.7.25</slf4j.version>
+    <log4j2.version>2.11.1</log4j2.version>
 
     <junit.version>4.12</junit.version>
     <easymock.version>3.4</easymock.version>
@@ -56,102 +62,134 @@
     </repository>
   </repositories>
 
-  <dependencies>
+  <dependencyManagement>
 
-    <dependency>
-      <groupId>com.bloomreach.commercedxp</groupId>
-      <artifactId>starterstore-api</artifactId>
-      <version>${starterstore.version}</version>
-      <scope>provided</scope>
-    </dependency>
+    <dependencies>
 
-    <dependency>
-      <groupId>org.onehippo.cms7.hst</groupId>
-      <artifactId>hst-api</artifactId>
-      <version>${hippo.hst.version}</version>
-      <scope>provided</scope>
-    </dependency>
+      <dependency>
+        <groupId>com.bloomreach.commercedxp</groupId>
+        <artifactId>starterstore-api</artifactId>
+        <version>${starterstore.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-addon-crisp-api</artifactId>
-      <version>${hippo.addon-crisp.version}</version>
-      <scope>provided</scope>
-    </dependency>
+      <dependency>
+        <groupId>com.bloomreach.commercedxp.b2b</groupId>
+        <artifactId>starterstore-b2b-api</artifactId>
+        <version>${starterstore-b2b.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${jackson2.version}</version>
-      <scope>provided</scope>
-    </dependency>
+      <dependency>
+        <groupId>org.onehippo.cms7.hst</groupId>
+        <artifactId>hst-api</artifactId>
+        <version>${hippo.hst.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>${jackson2.version}</version>
-      <scope>provided</scope>
-    </dependency>
+      <dependency>
+        <groupId>org.onehippo.cms7</groupId>
+        <artifactId>hippo-addon-crisp-api</artifactId>
+        <version>${hippo.addon-crisp.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${jackson2-databind.version}</version>
-      <scope>provided</scope>
-    </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${jackson2.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${commons-lang3.version}</version>
-    </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>${jackson2.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson2-databind.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>${easymock.version}</version>
-      <scope>test</scope>
-    </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-csv</artifactId>
+        <version>${jackson2-databind.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>com.bloomreach.commercedxp</groupId>
-      <artifactId>starterstore-common</artifactId>
-      <version>${starterstore.version}</version>
-      <scope>test</scope>
-    </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.onehippo.cms7.hst</groupId>
-      <artifactId>hst-mock</artifactId>
-      <version>${hippo.hst.version}</version>
-      <scope>test</scope>
-    </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-  </dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-  <build>
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymock</artifactId>
+        <version>${easymock.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-    <defaultGoal>package</defaultGoal>
+      <dependency>
+        <groupId>org.onehippo.cms7.hst</groupId>
+        <artifactId>hst-mock</artifactId>
+        <version>${hippo.hst.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
+      <dependency>
+        <groupId>com.bloomreach.commercedxp</groupId>
+        <artifactId>starterstore-common</artifactId>
+        <version>${starterstore.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-  </build>
+      <dependency>
+        <groupId>com.bloomreach.commercedxp.b2b</groupId>
+        <artifactId>starterstore-b2b-common</artifactId>
+        <version>${starterstore-b2b.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-slf4j-impl</artifactId>
+        <version>${log4j2.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j2.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+    </dependencies>
+
+  </dependencyManagement>
+
+  <modules>
+    <module>b2c</module>
+    <module>b2b</module>
+  </modules>
 
 </project>

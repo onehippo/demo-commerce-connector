@@ -1,9 +1,14 @@
 # demo-commerce-connector
-Example commerce connector implementation for learning and demonstration purpose, compliant with StarterStore v2 Commerce Connector SDK.
+
+Example commerce connector implementations for learning and demonstration purpose, compliant with StarterStore v14.1+ Commerce Connector SDK.
+
+This project has two submodules: b2c and b2b.
+
+b2c submodule is a demo B2C Commerce Connector module and b2b submodule is a demo B2B Commerce Connector module.
 
 ## Documentation
 
-See [Introduction tO Commerce Connector SDK](https://documentation.bloomreach.com/library/solutions/commerce-starterstore/connector-sdk/introduction.html).
+See [Introduction to Commerce Connector SDK](https://documentation.bloomreach.com/library/solutions/commerce-starterstore/connector-sdk/introduction.html).
 
 ## Versioning
 

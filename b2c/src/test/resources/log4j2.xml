@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2020 BloomReach Inc. (https://www.bloomreach.com/)
+-->
+<Configuration>
+
+  <Appenders>
+
+    <Console name="console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d %-5p [%C.%M():%L] %m%n"/>
+    </Console>
+
+  </Appenders>
+
+  <Loggers>
+
+    <Logger name="com.bloomreach.commercedxp.demo" level="debug" />
+
+    <Root level="info">
+      <AppenderRef ref="console"/>
+    </Root>
+
+  </Loggers>
+
+</Configuration>
